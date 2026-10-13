@@ -66,6 +66,7 @@ function removeTodo(id) {
     const saved = save();
     render();
     message.textContent = saved ? '已删除。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
+    input.focus();
 }
 
 function toggleTodo(id) {
@@ -75,6 +76,12 @@ function toggleTodo(id) {
     const saved = save();
     render();
     message.textContent = saved ? '已更新状态。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
+    const checkbox = document.querySelector(`#todo-${id}`);
+    if (checkbox) {
+        checkbox.focus();
+    } else {
+        filters.querySelector(`[data-filter="${currentFilter}"]`).focus();
+    }
 }
 
 function render() {
@@ -114,6 +121,7 @@ function render() {
         deleteButton.type = 'button';
         deleteButton.classList.add('delete-btn');
         deleteButton.textContent = '删除';
+        deleteButton.setAttribute('aria-label', `删除任务：${text}`);
         deleteButton.addEventListener('click', () => removeTodo(id));
         li.appendChild(label);
         li.appendChild(deleteButton);
