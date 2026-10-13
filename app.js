@@ -15,7 +15,27 @@ function save() {
 }
 
 function loadTodos() {
-    todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const data = raw === null ? [] : JSON.parse(raw);
+        if (!Array.isArray(data)) {
+            throw new Error('保存内容不是数组');
+        }
+        const validTodos = data.filter(todo => todo !== null
+            && typeof todo === 'object'
+            && Number.isSafeInteger(todo.id) && todo.id > 0
+            && typeof todo.text === 'string' && todo.text.trim() !== ''
+            && typeof todo.completed === 'boolean');
+        todos = validTodos.filter((todo, index) =>
+            validTodos.findIndex(item => item.id === todo.id) === index);
+        if (todos.length !== data.length) {
+            message.textContent = '保存内容不完整，只恢复了可用任务。';
+        }
+    } catch (error) {
+        todos = [];
+        message.textContent = '未能恢复已保存的任务，请检查浏览器存储。';
+        console.error('Todo 加载失败：', error);
+    }
 }
 
 function addTodo(text) {
