@@ -11,7 +11,13 @@ const count = document.querySelector('#todo-count');
 const empty = document.querySelector('#todo-empty');
 
 function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        return true;
+    } catch (error) {
+        console.error('Todo 保存失败：', error);
+        return false;
+    }
 }
 
 function loadTodos() {
@@ -45,29 +51,30 @@ function addTodo(text) {
         input.focus();
         return;
     }
-    const item = { id: Date.now(), text: value, completed: false };
+    const id = Math.max(0, ...todos.map(todo => todo.id)) + 1;
+    const item = { id, text: value, completed: false };
     todos = [...todos, item];
-    save();
+    const saved = save();
     render();
     input.value = '';
-    message.textContent = '已添加。';
+    message.textContent = saved ? '已添加。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
     input.focus();
 }
 
 function removeTodo(id) {
     todos = todos.filter(todo => todo.id !== id);
-    save();
+    const saved = save();
     render();
-    message.textContent = '已删除。';
+    message.textContent = saved ? '已删除。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
 }
 
 function toggleTodo(id) {
     todos = todos.map(todo => todo.id === id
         ? { ...todo, completed: !todo.completed }
         : todo);
-    save();
+    const saved = save();
     render();
-    message.textContent = '已更新状态。';
+    message.textContent = saved ? '已更新状态。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
 }
 
 function render() {
