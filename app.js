@@ -69,6 +69,13 @@ function removeTodo(id) {
     input.focus();
 }
 
+function clearCompleted() {
+    todos = todos.filter(todo => !todo.completed);
+    const saved = save();
+    render();
+    message.textContent = saved ? '已清除已完成任务。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
+}
+
 function toggleTodo(id) {
     todos = todos.map(todo => todo.id === id
         ? { ...todo, completed: !todo.completed }
