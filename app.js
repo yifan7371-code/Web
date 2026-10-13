@@ -1,36 +1,122 @@
-function initTodo() {
-    const input = document.querySelector('#todo-input');
-    const button = document.querySelector('#add-btn');
-    const list = document.querySelector('#todo-list');
-    const message = document.querySelector('#todo-message');
+const STORAGE_KEY = 'todos';
+let todos = [];
+let currentFilter = 'all';
 
-    // 先检查依赖，再注册事件。
-    if (!input || !button || !list || !message) {
-        console.error('Todo 初始化失败：缺少必要的页面元素。');
-        if (button) button.disabled = true;
-        if (message) {
-            message.textContent = '暂时无法添加待办。';
-        }
+const input = document.querySelector('#todo-input');
+const button = document.querySelector('#add-btn');
+const list = document.querySelector('#todo-list');
+const message = document.querySelector('#todo-message');
+const filters = document.querySelector('#todo-filters');
+const count = document.querySelector('#todo-count');
+const empty = document.querySelector('#todo-empty');
+
+function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+
+function loadTodos() {
+    todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+}
+
+function addTodo(text) {
+    const value = text.trim();
+    if (value === '') {
+        message.textContent = '请先输入待办事项。';
+        input.focus();
         return;
     }
+    const item = { id: Date.now(), text: value, completed: false };
+    todos = [...todos, item];
+    save();
+    render();
+    input.value = '';
+    message.textContent = '已添加。';
+    input.focus();
+}
 
-    button.addEventListener('click', function () {
-        const text = input.value.trim();
-        if (text === '') {
-            message.textContent = '请先输入待办事项。';
-            input.focus();
-            return;
-        }
+function removeTodo(id) {
+    todos = todos.filter(todo => todo.id !== id);
+    save();
+    render();
+    message.textContent = '已删除。';
+}
 
-        const li = document.createElement('li');
-        // 待办内容按纯文本显示，不解析为 HTML。
-        li.textContent = text;
-        list.appendChild(li);
+function toggleTodo(id) {
+    todos = todos.map(todo => todo.id === id
+        ? { ...todo, completed: !todo.completed }
+        : todo);
+    save();
+    render();
+    message.textContent = '已更新状态。';
+}
 
-        input.value = '';
-        message.textContent = '已添加。';
-        input.focus();
+function render() {
+    const visibleTodos = todos.filter(todo => {
+        if (currentFilter === 'active') return !todo.completed;
+        if (currentFilter === 'completed') return todo.completed;
+        return true;
     });
+    list.textContent = '';
+    for (const todo of visibleTodos) {
+        const { id, text, completed } = todo;
+        const li = document.createElement('li');
+        li.classList.add('todo-item');
+        if (completed) li.classList.add('is-completed');
+
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `todo-${id}`;
+        checkbox.checked = completed;
+        label.htmlFor = checkbox.id;
+        checkbox.addEventListener('change', () => toggleTodo(id));
+
+        const content = document.createElement('span');
+        const title = document.createElement('span');
+        title.classList.add('todo-text');
+        title.textContent = text;
+        const state = document.createElement('span');
+        state.classList.add('todo-state');
+        state.textContent = completed ? '已完成' : '进行中';
+        content.appendChild(title);
+        content.appendChild(state);
+        label.appendChild(checkbox);
+        label.appendChild(content);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.classList.add('delete-btn');
+        deleteButton.textContent = '删除';
+        deleteButton.addEventListener('click', () => removeTodo(id));
+        li.appendChild(label);
+        li.appendChild(deleteButton);
+        list.appendChild(li);
+    }
+    const completedCount = todos.filter(todo => todo.completed).length;
+    count.textContent = `共 ${todos.length} 项，已完成 ${completedCount} 项`;
+    empty.hidden = visibleTodos.length !== 0;
+    empty.textContent = todos.length === 0 ? '还没有待办事项。' : '当前筛选下没有待办事项。';
+    for (const filterButton of filters.querySelectorAll('button')) {
+        filterButton.setAttribute('aria-pressed', String(filterButton.dataset.filter === currentFilter));
+    }
+}
+
+function initTodo() {
+    if (!input || !button || !list || !message || !filters || !count || !empty) {
+        console.error('Todo 初始化失败：缺少必要的页面元素。');
+        if (button) button.disabled = true;
+        if (message) message.textContent = '暂时无法使用待办清单。';
+        return;
+    }
+    button.addEventListener('click', () => addTodo(input.value));
+    for (const filterButton of filters.querySelectorAll('button')) {
+        filterButton.addEventListener('click', () => {
+            currentFilter = filterButton.dataset.filter;
+            render();
+        });
+    }
+    loadTodos();
+    render();
 }
 
 initTodo();

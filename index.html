@@ -15,7 +15,14 @@
             <button type="button" id="add-btn">添加</button>
         </div>
         <p id="todo-message" class="todo-message" role="status"></p>
+        <div id="todo-filters" class="todo-filters" aria-label="筛选待办">
+            <button type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button type="button" data-filter="active" aria-pressed="false">进行中</button>
+            <button type="button" data-filter="completed" aria-pressed="false">已完成</button>
+        </div>
+        <p id="todo-count" class="todo-count"></p>
         <ul id="todo-list" class="todo-list"></ul>
+        <p id="todo-empty" class="todo-empty">还没有待办事项。</p>
     </main>
     <script src="app.js"></script>
 </body>
