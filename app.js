@@ -61,7 +61,8 @@ function addTodo(text) {
     input.focus();
 }
 
-function removeTodo(id) {
+function deleteTodo(id) {
+    console.log('[delete]', id);
     todos = todos.filter(todo => todo.id !== id);
     const saved = save();
     render();
@@ -77,6 +78,7 @@ function clearCompleted() {
 }
 
 function toggleTodo(id) {
+    console.log('[toggle]', id);
     todos = todos.map(todo => todo.id === id
         ? { ...todo, completed: !todo.completed }
         : todo);
@@ -98,40 +100,40 @@ function render() {
         return true;
     });
     list.textContent = '';
-    for (const todo of visibleTodos) {
-        const { id, text, completed } = todo;
+    for (const { id, text, completed } of visibleTodos) {
         const li = document.createElement('li');
         li.classList.add('todo-item');
+        li.dataset.id = String(id);
         if (completed) li.classList.add('is-completed');
 
-        const label = document.createElement('label');
+        // 父级 click 已处理文字点击，不再用 label 合成第二次点击。
+        const content = document.createElement('div');
+        content.classList.add('todo-content');
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = `todo-${id}`;
         checkbox.checked = completed;
-        label.htmlFor = checkbox.id;
-        checkbox.addEventListener('change', () => toggleTodo(id));
-
-        const content = document.createElement('span');
+        checkbox.setAttribute('aria-label', `切换任务：${text}`);
+        const words = document.createElement('span');
         const title = document.createElement('span');
         title.classList.add('todo-text');
         title.textContent = text;
         const state = document.createElement('span');
         state.classList.add('todo-state');
         state.textContent = completed ? '已完成' : '进行中';
-        content.appendChild(title);
-        content.appendChild(state);
-        label.appendChild(checkbox);
-        label.appendChild(content);
-
-        const deleteButton = document.createElement('button');
-        deleteButton.type = 'button';
-        deleteButton.classList.add('delete-btn');
-        deleteButton.textContent = '删除';
-        deleteButton.setAttribute('aria-label', `删除任务：${text}`);
-        deleteButton.addEventListener('click', () => removeTodo(id));
-        li.appendChild(label);
-        li.appendChild(deleteButton);
+        words.append(title, state);
+        content.append(checkbox, words);
+        li.appendChild(content);
+        
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.classList.add('delete-btn');
+        del.dataset.action = 'delete';
+        del.setAttribute('aria-label', `删除任务：${text}`);
+        const delText = document.createElement('span');
+        delText.textContent = '删除';
+        del.appendChild(delText);
+        li.appendChild(del);
         list.appendChild(li);
     }
     const completedCount = todos.filter(todo => todo.completed).length;
@@ -141,6 +143,25 @@ function render() {
     for (const filterButton of filters.querySelectorAll('button')) {
         filterButton.setAttribute('aria-pressed', String(filterButton.dataset.filter === currentFilter));
     }
+}
+
+function handleListClick(e) {
+    if (!(e.target instanceof Element)) return;
+    const item = e.target.closest('li');
+    if (!item || !list.contains(item)) return;
+    if (!item.dataset.id) return;
+    // W7 的 id 是数字，dataset.id 是字符串。
+    const id = Number(item.dataset.id);
+    if (!Number.isSafeInteger(id) || !todos.some(todo => todo.id === id)) return;
+    const delBtn = e.target.closest('[data-action="delete"]');
+    if (delBtn && item.contains(delBtn)) {
+        deleteTodo(id);
+        return;
+    }
+    
+    if (e.target.closest('button[data-action]')) return;
+    if (e.target.matches('input[type="checkbox"]')) e.preventDefault();
+    toggleTodo(id);
 }
 
 function initTodo() {
@@ -157,6 +178,7 @@ function initTodo() {
             render();
         });
     }
+    list.addEventListener('click', handleListClick);
     loadTodos();
     render();
 }
