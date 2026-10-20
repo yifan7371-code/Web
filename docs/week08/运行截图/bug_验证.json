@@ -1,0 +1,28 @@
+{
+  "task": "任务2_缺陷调试/修复前",
+  "browser": "155.0.8059.85",
+  "captured": "2026-10-20T08:37:42.480Z",
+  "records": [
+    {
+      "scene": "模板缺陷复现",
+      "result": "已复现",
+      "logs": [
+        "[delete] 101",
+        "[toggle] 101"
+      ],
+      "data": [
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    }
+  ],
+  "unhandledErrors": []
+}

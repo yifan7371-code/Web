@@ -1,0 +1,139 @@
+{
+  "task": "任务2_缺陷调试/修复后",
+  "browser": "155.0.8059.85",
+  "captured": "2026-10-20T08:38:18.105Z",
+  "records": [
+    {
+      "scene": "点击任务文字，只切换",
+      "result": "通过",
+      "logs": [
+        "[toggle] 101"
+      ],
+      "data": [
+        {
+          "id": 101,
+          "text": "整理 DOM 与事件流笔记",
+          "completed": true
+        },
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "scene": "点击删除按钮，只删除",
+      "result": "通过",
+      "logs": [
+        "[delete] 101"
+      ],
+      "data": [
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "scene": "点击删除按钮内部文字，正确删除",
+      "result": "通过",
+      "logs": [
+        "[delete] 102"
+      ],
+      "data": [
+        {
+          "id": 101,
+          "text": "整理 DOM 与事件流笔记",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "scene": "点击列表空白，无异常且数据不变",
+      "result": "通过",
+      "logs": [],
+      "data": [
+        {
+          "id": 101,
+          "text": "整理 DOM 与事件流笔记",
+          "completed": false
+        },
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "scene": "动态新增任务，无需绑定即可交互",
+      "result": "通过",
+      "logs": [
+        "[toggle] 104",
+        "[delete] 104"
+      ],
+      "data": [
+        {
+          "id": 101,
+          "text": "整理 DOM 与事件流笔记",
+          "completed": false
+        },
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "scene": "父容器只绑定一次，子节点不绑定",
+      "result": "通过",
+      "logs": [],
+      "data": [
+        {
+          "id": 101,
+          "text": "整理 DOM 与事件流笔记",
+          "completed": false
+        },
+        {
+          "id": 102,
+          "text": "检查列表的点击边界",
+          "completed": false
+        },
+        {
+          "id": 103,
+          "text": "复查第七周的数据保存",
+          "completed": true
+        }
+      ]
+    }
+  ],
+  "unhandledErrors": []
+}
