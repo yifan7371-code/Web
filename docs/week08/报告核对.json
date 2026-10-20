@@ -1,18 +1,32 @@
 {
-  "baseline_sha256": "56aa72f62f49ff054cc15f8d90370c9e8e696bd7686cdfb29b551cc9db4d2214",
-  "final_sha256": "aaf76e183c4191b18c9a37d0f7be8053b4395d4e9a00fcef8504145ea00e21a1",
-  "preserved_outside_task3": true,
-  "other_edits": [
-    "Git同步说明",
-    "任务3总览条目"
-  ],
-  "preserved_package_parts": 27,
-  "new_media": [
-    "word/media/image5.png"
-  ],
+  "report": "柳一帆2024150243AI协作日志W8.docx",
+  "final_sha256": "7f831bf74d24746a1e369a8f74ecfc5de1e3290ca786718f655b87d2584bb009",
+  "rendered_pages": 9,
+  "all_pages_visually_checked": true,
   "inline_images": 5,
   "tables": 2,
-  "report": "柳一帆2024150243AI协作日志W8.docx",
-  "rendered_pages": 9,
-  "all_pages_visually_checked": true
+  "technical_checks_passed": 19,
+  "last_slide_checklist_passed": 10,
+  "independent_no_ai_condition_met": false,
+  "T2_group_assignment_included": false,
+  "report_content_modified_by_this_check": false,
+  "checked_date": "2026-10-20",
+  "previous_revision_audit": {
+    "baseline_sha256": "56aa72f62f49ff054cc15f8d90370c9e8e696bd7686cdfb29b551cc9db4d2214",
+    "final_sha256": "aaf76e183c4191b18c9a37d0f7be8053b4395d4e9a00fcef8504145ea00e21a1",
+    "preserved_outside_task3": true,
+    "other_edits": [
+      "Git同步说明",
+      "任务3总览条目"
+    ],
+    "preserved_package_parts": 27,
+    "new_media": [
+      "word/media/image5.png"
+    ],
+    "inline_images": 5,
+    "tables": 2,
+    "report": "柳一帆2024150243AI协作日志W8.docx",
+    "rendered_pages": 9,
+    "all_pages_visually_checked": true
+  }
 }

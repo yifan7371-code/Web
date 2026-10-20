@@ -1,7 +1,7 @@
 {
   "task": "任务3_编辑功能",
   "browser": "155.0.8059.85",
-  "captured": "2026-10-20T10:23:23.515Z",
+  "captured": "2026-10-20T10:56:46.893Z",
   "records": [
     {
       "scene": "点击任务文字，只切换",
@@ -414,7 +414,7 @@
       "result": "通过",
       "logs": [
         "[edit] 101 保存失败测试文本",
-        "Todo 保存失败： Error: 测试：模拟存储写入失败\n    at Storage.setItem (eval at evaluate (:311:30), <anonymous>:1:100)\n    at save (http://127.0.0.1:62158/app.js:15:22)\n    at updateTodo (http://127.0.0.1:62158/app.js:112:19)\n    at HTMLUListElement.handleListClick (http://127.0.0.1:62158/app.js:196:9)"
+        "Todo 保存失败： Error: 测试：模拟存储写入失败\n    at Storage.setItem (eval at evaluate (:311:30), <anonymous>:1:100)\n    at save (http://127.0.0.1:56178/app.js:15:22)\n    at updateTodo (http://127.0.0.1:56178/app.js:112:19)\n    at HTMLUListElement.handleListClick (http://127.0.0.1:56178/app.js:196:9)"
       ],
       "data": [
         {
