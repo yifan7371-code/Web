@@ -1,19 +1,17 @@
-# Todo 第七周实验
+# 第八周任务式实验
 
-原生 HTML、CSS、JavaScript 实现的待办清单。支持添加、删除、完成状态切换、全部/进行中/已完成筛选，以及 localStorage 保存与恢复。
+起点是 `07/第7周全部5轮代码/round05` 的原始文件，本目录的初始 Git 提交保存该基线。未采用此前第八周的实现、代码快照或截图。
 
-## 运行
+根目录 index.html、style.css、app.js 与“任务3_编辑功能”一致，是最终版本。使用本地 HTTP 服务器打开 index.html，无框架与额外网页依赖。
 
-index.html、style.css、app.js 留在同一目录。建议用本地HTTP服务器打开；例如安装了Python时，在本目录运行 python -m http.server 8000，再访问 http://127.0.0.1:8000。
+- 任务1_事件委托：列表只在 ul 绑定一个 click，新增节点不重新绑监听器。
+- 任务2_缺陷调试：修复前保留模板的删除后继续 toggle 缺陷；修复后用 return 分流。
+- 任务3_编辑功能：增加编辑，支持取消和空输入检查，保留状态并持久化。
 
-## 数据更新
+每个任务的“任务说明.md”记录输入目标、判断及验证结果。修复前目录只用于复现缺陷。
 
-todos 是完整任务数据，currentFilter 只负责筛选视图。添加使用展开，删除使用filter，切换使用map与对象展开；修改数据后尝试保存，再render。保存失败时仍更新页面并给出提示。
+实验截图与验证 JSON 见代码包中的“运行截图”。控制台截图右侧是由 Chrome 实际 console 事件采集的日志面板，不是原生 DevTools 截图。
 
-clearCompleted() 为AI协助给出的参考实现，可在控制台调用。它不作为已完成禁用AI独立练习的证明。
+原仓库链接：https://github.com/yifan7371-code/Web
 
-## 版本管理
-
-第六周基线保留在历史中。第七周在 feature/todo-complete 分支迭代，经核对后合并回 main。round01.md 至 round05.md 为相应的Prompt与审查记录。
-
-仓库：https://github.com/yifan7371-code/Web
+本次本地代码在 feature/w8-task-based 分支按任务提交并合并 main；未上传到 GitHub。独立编写的声明不能由自动运行结果代替。

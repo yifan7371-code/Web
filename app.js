@@ -93,6 +93,23 @@ function toggleTodo(id) {
     }
 }
 
+function updateTodo(id, text) {
+    const value = text.trim();
+    if (value === '') {
+        message.textContent = '任务内容不能为空，已保留原内容。';
+        return;
+    }
+    console.log('[edit]', id, value);
+    todos = todos.map(todo => todo.id === id
+        ? { ...todo, text: value }
+        : todo);
+    const saved = save();
+    render();
+    message.textContent = saved ? '已修改。' : '页面已更新，但未能保存，刷新可能丢失本次修改。';
+    const edit = list.querySelector(`[data-id="${id}"] [data-action="edit"]`);
+    if (edit) edit.focus();
+}
+
 function render() {
     const visibleTodos = todos.filter(todo => {
         if (currentFilter === 'active') return !todo.completed;
@@ -124,7 +141,15 @@ function render() {
         words.append(title, state);
         content.append(checkbox, words);
         li.appendChild(content);
-        
+        const edit = document.createElement('button');
+        edit.type = 'button';
+        edit.classList.add('delete-btn');
+        edit.dataset.action = 'edit';
+        edit.setAttribute('aria-label', `编辑任务：${text}`);
+        const editText = document.createElement('span');
+        editText.textContent = '编辑';
+        edit.appendChild(editText);
+        li.appendChild(edit);
         const del = document.createElement('button');
         del.type = 'button';
         del.classList.add('delete-btn');
@@ -158,7 +183,13 @@ function handleListClick(e) {
         deleteTodo(id);
         return;
     }
-    
+    const editBtn = e.target.closest('[data-action="edit"]');
+    if (editBtn && item.contains(editBtn)) {
+        const todo = todos.find(todo => todo.id === id);
+        const text = window.prompt('修改任务', todo.text);
+        if (text !== null) updateTodo(id, text);
+        return;
+    }
     if (e.target.closest('button[data-action]')) return;
     if (e.target.matches('input[type="checkbox"]')) e.preventDefault();
     toggleTodo(id);
