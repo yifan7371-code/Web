@@ -94,9 +94,15 @@ function toggleTodo(id) {
 }
 
 function updateTodo(id, text) {
+    const current = todos.find(todo => todo.id === id);
+    if (!current) return;
     const value = text.trim();
     if (value === '') {
         message.textContent = '任务内容不能为空，已保留原内容。';
+        return;
+    }
+    if (value === current.text) {
+        message.textContent = '内容没有变化，已保留原任务。';
         return;
     }
     console.log('[edit]', id, value);
@@ -178,21 +184,22 @@ function handleListClick(e) {
     // W7 的 id 是数字，dataset.id 是字符串。
     const id = Number(item.dataset.id);
     if (!Number.isSafeInteger(id) || !todos.some(todo => todo.id === id)) return;
-    const delBtn = e.target.closest('[data-action="delete"]');
-    if (delBtn && item.contains(delBtn)) {
+    const actionButton = e.target.closest('button[data-action]');
+    if (actionButton && !item.contains(actionButton)) return;
+    const action = actionButton ? actionButton.dataset.action : null;
+    if (action === 'delete') {
         deleteTodo(id);
-        return;
-    }
-    const editBtn = e.target.closest('[data-action="edit"]');
-    if (editBtn && item.contains(editBtn)) {
+    } else if (action === 'edit') {
         const todo = todos.find(todo => todo.id === id);
         const text = window.prompt('修改任务', todo.text);
-        if (text !== null) updateTodo(id, text);
-        return;
+        if (text === null) return;
+        updateTodo(id, text);
+    } else {
+        // 未知操作按钮也不能落入“切换”分支。
+        if (actionButton) return;
+        if (e.target.matches('input[type="checkbox"]')) e.preventDefault();
+        toggleTodo(id);
     }
-    if (e.target.closest('button[data-action]')) return;
-    if (e.target.matches('input[type="checkbox"]')) e.preventDefault();
-    toggleTodo(id);
 }
 
 function initTodo() {
