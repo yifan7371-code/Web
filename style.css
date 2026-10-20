@@ -147,7 +147,7 @@ body {
     gap: 0.75rem;
 }
 
-.todo-item label {
+.todo-item .todo-content {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -184,3 +184,6 @@ body {
 [hidden] {
     display: none;
 }
+
+/* 保留列表底部空白，验证 closest 的空值路径。 */
+.todo-list { min-height: 5rem; padding-bottom: 2rem; }
