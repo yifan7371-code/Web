@@ -1,0 +1,27 @@
+{
+  "name": "week10-todo",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "lint": "eslint src/ --max-warnings 3",
+    "lint:all": "eslint src/ tests/ vite.config.ts --max-warnings 3",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite": "5.4.21",
+    "vitest": "2.1.9",
+    "eslint": "8.57.1",
+    "@typescript-eslint/parser": "8.12.2",
+    "@typescript-eslint/eslint-plugin": "8.12.2",
+    "prettier": "3.3.3",
+    "eslint-config-prettier": "9.1.0"
+  }
+}
